@@ -65,7 +65,7 @@ function registrarIngresoOEgreso() {
              * Si tipoDeTransaccion es 1 asigna Ingreso,si no asigna Egreso;
             */
             monto,
-            fechaDeCreacion: new Date().toLocaleDateString,
+            fechaDeCreacion: new Date().toLocaleDateString(),
             /**toLocalString convierte la fecha en un formato legible
              * segun la configuracion del navegador
              */
@@ -125,6 +125,55 @@ function mostrarResumen(){
     console.log(`- Egresos: $${totalEgresos.toFixed(2)}`);
 }
 
+//HU1 - Listar nombres de movimientos usando map()
+function obtenerNombresDeMovimientos(){
+    const names = transacciones.map((transaccion) => transaccion.transaccion);
+    console.log("\nNombres de movimientos registrados:");
+    console.log(names);
+}
+
+//HU2 - Filtrar egresos mayores a $100 usando filter
+function filtrarEgresosMayoresA100(){
+    const egresosFiltrados = transacciones.filter(
+        (transaccion) => transaccion.monto > 100 && transaccion.tipoDeTransaccion === "2"
+    );
+    console.log("\nEgresos mayores a $100:");
+    console.log(egresosFiltrados);
+}
+//HU2 - Buscar movimiento por nombre con find
+function buscarMovimientoPorNombre(nombre) {
+    const movimiento = transacciones.find(
+        (transaccion) => transaccion.transaccion.toLowerCase() === nombre.toLowerCase()
+    );
+
+    if (movimiento) {
+        console.log(`\nMovimiento encontrado:`);
+        console.log(movimiento);
+    } else {
+        console.log(`\nNo se encontró un movimiento con el nombre "${nombre}".`);
+    }
+}
+// 🔹 BONUS - Ordenar movimientos por monto de mayor a menor (sin modificar el original)
+function ordenarMovimientosPorMonto() {
+    const transaccionesOrdenadas = [...transacciones].sort((a, b) => b.monto - a.monto);
+    console.log("\nMovimientos ordenados por monto (de mayor a menor):");
+    console.log(transaccionesOrdenadas);
+}
+
+// 🔹 BONUS - Obtener solo los nombres de los ingresos (usando filter() + map())
+function obtenerNombresDeIngresos() {
+    const nombresIngresos = transacciones
+        .filter((transaccion) => transaccion.tipo === "Ingreso")
+        .map((transaccion) => transaccion.transaccion);
+
+    console.log("\nNombres de ingresos:");
+    console.log(nombresIngresos);
+}
 //Ejecucion del programa
-registrarIngresoOEgreso(); 
+registrarIngresoOEgreso();
 mostrarResumen();
+obtenerNombresDeMovimientos();
+filtrarEgresosMayoresA100();
+buscarMovimientoPorNombre(prompt("Ingrese el nombre del movimiento a buscar:"));
+ordenarMovimientosPorMonto();
+obtenerNombresDeIngresos();
